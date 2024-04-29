@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34221.43
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolFinder.Web.Api", "SchoolFinder.Web.Api\SchoolFinder.Web.Api.csproj", "{30FE9AFB-431F-4C98-B6C8-D3AAD9CD2608}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolFinder.Web.App", "SchoolFinder.Web.App\SchoolFinder.Web.App.csproj", "{B85EBD8A-78DB-4FEA-90E1-37C6C09B12B5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{30FE9AFB-431F-4C98-B6C8-D3AAD9CD2608}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30FE9AFB-431F-4C98-B6C8-D3AAD9CD2608}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30FE9AFB-431F-4C98-B6C8-D3AAD9CD2608}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30FE9AFB-431F-4C98-B6C8-D3AAD9CD2608}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B85EBD8A-78DB-4FEA-90E1-37C6C09B12B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B85EBD8A-78DB-4FEA-90E1-37C6C09B12B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B85EBD8A-78DB-4FEA-90E1-37C6C09B12B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B85EBD8A-78DB-4FEA-90E1-37C6C09B12B5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0B1F1E4E-9C73-460D-8AE4-087CD2D88D35}
+	EndGlobalSection
+EndGlobal
