@@ -1,0 +1,90 @@
+﻿@page "/users/requests"
+@layout MainLayout
+@inherits FinderComponent
+
+<PageTitle>Запити коритувачів</PageTitle>
+
+<AuthenticatedInRole AllowedRoles=@(new string[] { UserRoles.Admin })>
+    <AllowedView>
+        <PageHeader Title="Запити на реєстрацію користувачів" Subtitle="Переглядайти запити, додавайте, відхиляйте тут" />
+        <div class="row justify-content-end">
+            <div class="col-3">
+                <RadzenTextBox Change=@(args => OnSearchBoxChange(args)) class="w-100" Placeholder="Search" />
+            </div>
+            <div class="col-3">
+                <RadzenDropDown @bind-Value=@Filter.SortBy Data=@(Enum.GetValues(typeof(RegistrationFormFieldIdentifier)).Cast<RegistrationFormFieldIdentifier>()) class="w-100">
+                    <Template>
+                        @(((RegistrationFormFieldIdentifier)context).GetEnumDescription())
+                    </Template>
+                    <ValueTemplate>
+                        @(((RegistrationFormFieldIdentifier)context).GetEnumDescription())
+                    </ValueTemplate>
+                </RadzenDropDown>
+            </div>
+            <div class="col-3">
+                <RadzenDropDown @bind-Value=@Filter.OrderBy Data=@(Enum.GetValues(typeof(SortOrder)).Cast<SortOrder>()) class="w-100">
+                    <Template>
+                        @(((SortOrder)context).GetEnumDescription())
+                    </Template>
+                    <ValueTemplate>
+                        @(((SortOrder)context).GetEnumDescription())
+                    </ValueTemplate>
+                </RadzenDropDown>
+            </div>
+        </div>
+        <RadzenDataList @ref=@DataList AllowPaging=true Data=@RegistrationForms Count=@TotalCount PageSize="2"
+                        LoadData=@OnRead IsLoading=@IsLoading PagerHorizontalAlign="HorizontalAlign.Left"  ShowPagingSummary="true">
+            <Template Context="request">
+
+                <div class="row">
+                    <div class="col-6">
+                        <RadzenImage Path=@request.DocumentApprove.Url Style="width: 100%;" AlternateText="Фото документа" />
+                    </div>
+                    <div class="col-6">
+                        <h4>@request.UserFirstName @request.UserLastName</h4>
+                        <div>
+                            @switch (request.Type)
+                            {
+                                case RegistrationFormType.Student:
+                                    <span>Учень школи: @request.SchoolName</span>
+                                    break;
+                                case RegistrationFormType.SchoolAdministration:
+                                    <span>@request.PositionInSchool у школі: @request.SchoolName</span>
+                                    break;
+                            }
+                        </div>
+                        <div class="mt-2">
+                            @switch (request.State)
+                            {
+                                case RegistrationFormState.None:
+                                    <h5>Очікує підтвердження</h5>
+                                    break;
+                                case RegistrationFormState.Approved:
+                                    <h5>Реєстрація підтверджена</h5>
+                                    break;
+                                case RegistrationFormState.Declined:
+                                    <h5>Реєстрація відхилена</h5>
+                                    break;
+                            }
+                        </div>
+                    </div>
+                </div>
+                @if (request.State == RegistrationFormState.None)
+                {
+                    <hr />
+                    <div class="row">
+                        <div class="col-6">
+                            <RadzenButton Click=@(args => DeclineForm(request)) class="bg-danger px-3 w-100">Відхилити</RadzenButton>
+                        </div>
+                        <div class="col-6">
+                            <RadzenButton Click=@(args => ApproveForm(request)) class="px-3 w-100">Прийняти</RadzenButton>
+                        </div>
+                    </div>
+                }
+            </Template>
+        </RadzenDataList>
+    </AllowedView>
+    <NotAllowedView>
+        <DefaultNotAllowedView />
+    </NotAllowedView>
+</AuthenticatedInRole>

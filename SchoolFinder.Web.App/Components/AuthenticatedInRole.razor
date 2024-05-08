@@ -1,0 +1,10 @@
+﻿@inherits FinderComponent
+
+@if(State.User?.Roles?.Any(r => AllowedRoles.Contains(r)) ?? false)
+{
+    @AllowedView
+}
+else
+{
+    @NotAllowedView
+}

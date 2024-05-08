@@ -1,0 +1,18 @@
+﻿@page "/registration"
+@layout AuthenticationLayout
+@inherits FinderComponent
+
+<PageTitle>Registration</PageTitle>
+
+<div class="m-3 ">
+    <RadzenTabs>
+        <Tabs>
+            <RadzenTabsItem Text="Учень">
+                <StudentRegistrationForm />
+            </RadzenTabsItem>
+            <RadzenTabsItem Text="Адміністрація школи">
+                <AdministrationRegistrationForm />
+            </RadzenTabsItem>
+        </Tabs>
+    </RadzenTabs>
+</div>

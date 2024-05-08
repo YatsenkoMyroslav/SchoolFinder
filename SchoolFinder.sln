@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolFinder.Web.Api", "SchoolFinder.Web.Api\SchoolFinder.Web.Api.csproj", "{30FE9AFB-431F-4C98-B6C8-D3AAD9CD2608}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolFinder.Web.Api", "SchoolFinder.Web.Api\SchoolFinder.Web.Api.csproj", "{30FE9AFB-431F-4C98-B6C8-D3AAD9CD2608}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolFinder.Web.App", "SchoolFinder.Web.App\SchoolFinder.Web.App.csproj", "{B85EBD8A-78DB-4FEA-90E1-37C6C09B12B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolFinder.Web.App", "SchoolFinder.Web.App\SchoolFinder.Web.App.csproj", "{B85EBD8A-78DB-4FEA-90E1-37C6C09B12B5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolFinder.Core", "SchoolFinder.Core\SchoolFinder.Core.csproj", "{03319B7A-733B-4409-B483-D4A4953C01F4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolFinder.Common", "SchoolFinder.Common\SchoolFinder.Common.csproj", "{71F460E9-4816-405F-B4AC-AA830E17AFF8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolFinder.DAL", "SchoolFinder.DAL\SchoolFinder.DAL.csproj", "{84229B2B-3A1F-4C93-B06E-7B590F5CD6FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{B85EBD8A-78DB-4FEA-90E1-37C6C09B12B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B85EBD8A-78DB-4FEA-90E1-37C6C09B12B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B85EBD8A-78DB-4FEA-90E1-37C6C09B12B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03319B7A-733B-4409-B483-D4A4953C01F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03319B7A-733B-4409-B483-D4A4953C01F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03319B7A-733B-4409-B483-D4A4953C01F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03319B7A-733B-4409-B483-D4A4953C01F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71F460E9-4816-405F-B4AC-AA830E17AFF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71F460E9-4816-405F-B4AC-AA830E17AFF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71F460E9-4816-405F-B4AC-AA830E17AFF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71F460E9-4816-405F-B4AC-AA830E17AFF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84229B2B-3A1F-4C93-B06E-7B590F5CD6FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84229B2B-3A1F-4C93-B06E-7B590F5CD6FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84229B2B-3A1F-4C93-B06E-7B590F5CD6FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84229B2B-3A1F-4C93-B06E-7B590F5CD6FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,10 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@inherits FinderComponent
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">SchoolFinder.Web.App</a>
+        <a class="navbar-brand" href="">
+            SchoolFinder
+        </a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -9,31 +13,45 @@
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
-        </div>
+        <AuthenticatedComponent>
+            <Authenticated>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="schools" Match="NavLinkMatch.All">
+                        <span class="oi oi-book" aria-hidden="true"></span> Школи
+                    </NavLink>
+                </div>
+                @if (State.User?.Roles?.Contains(UserRoles.SchoolAdmin) ?? false)
+                {
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href=@($"schools/owned/{State.User.Id}") Match="NavLinkMatch.All">
+                            <span class="oi oi-person" aria-hidden="true"></span> Мої школи
+                        </NavLink>
+                    </div>
+                }
+                @if (State.User?.Roles?.Contains(UserRoles.Admin) ?? false)
+                {
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="users/requests" Match="NavLinkMatch.All">
+                            <span class="oi oi-person" aria-hidden="true"></span> Cтворення акаунтів
+                        </NavLink>
+                    </div>
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="schools/requests" Match="NavLinkMatch.All">
+                            <span class="oi oi-home" aria-hidden="true"></span> Cтворення закладів
+                        </NavLink>
+                    </div>
+                }
+                @if (State.User?.Roles?.Contains(UserRoles.SuperAdmin) ?? false)
+                {
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="users" Match="NavLinkMatch.All">
+                            <span class="oi oi-person" aria-hidden="true"></span> Користувачі
+                        </NavLink>
+                    </div>
+                }
+            </Authenticated>
+            <NotAuthenticated>
+            </NotAuthenticated>
+        </AuthenticatedComponent>
     </nav>
 </div>
-
-@code {
-    private bool collapseNavMenu = true;
-
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-}

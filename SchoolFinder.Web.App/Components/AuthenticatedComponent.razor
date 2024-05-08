@@ -1,0 +1,10 @@
+﻿@inherits FinderComponent
+
+@if (State.IsAuthenticated)
+{
+    @Authenticated
+}
+else
+{
+    @NotAuthenticated
+}

@@ -1,0 +1,14 @@
+﻿@inherits FinderComponent
+
+<div class="top-row text-end mt-3 px-4">
+<AuthenticatedComponent>
+    <Authenticated>
+        <RadzenButton Click=@NavigateToLogout>LogOut</RadzenButton>
+    </Authenticated>
+    <NotAuthenticated>
+        <RadzenButton Click=@NavigateToLogin>Login</RadzenButton>
+        <RadzenButton Click=@NavigateToRegister>Register</RadzenButton>
+    </NotAuthenticated>
+</AuthenticatedComponent>
+<hr/>
+</div>

@@ -1,0 +1,17 @@
+﻿@page "/login"
+@layout AuthenticationLayout
+@inherits FinderComponent
+
+<PageTitle>Login</PageTitle>
+
+<RadzenStack Gap="0" Class="rz-my-12 rz-mx-auto rz-border-radius-6 rz-shadow-10" Style="width: 100%; max-width: 400px; overflow: hidden;">
+    <RadzenCard Class="rz-shadow-0 rz-border-radius-0 rz-background-color-info rz-p-12" style="text-align: center;">
+        <RadzenText TextStyle="TextStyle.DisplayH3" TagName="TagName.H2" Class="rz-color-white rz-mb-0">Вхід</RadzenText>
+    </RadzenCard>
+    <RadzenCard Class="rz-shadow-0 rz-p-12">
+        <RadzenTemplateForm Data=@("SimpleLogin") >
+            <RadzenLogin AllowRegister=true AllowResetPassword=false Register=@RedirectToRegister Login=@LogIn LoginText="Вхід" UserText="Електронна пошта" PasswordText="Пароль" 
+                PasswordAutoCompleteType=@AutoCompleteType.CurrentPassword RegisterMessageText="Немає акаунту?" RegisterText="Створити" />
+        </RadzenTemplateForm>
+    </RadzenCard>
+</RadzenStack>

@@ -1,0 +1,17 @@
+﻿@inherits FinderComponent
+
+<div class="d-flex justify-content-between mb-3">
+    <div>
+        @if (!string.IsNullOrEmpty(Title) || !string.IsNullOrEmpty(Subtitle))
+        {
+            <h3 class="m-auto">@Title</h3>
+            <span>@Subtitle</span>
+        }
+    </div>
+    <div>
+        @if (OnButtonClick.HasDelegate)
+        {
+            <RadzenButton Click=@OnClick>@Button</RadzenButton>
+        }
+    </div>
+</div>
