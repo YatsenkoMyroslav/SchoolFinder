@@ -10,4 +10,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.29" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="School\Request\" />
+  </ItemGroup>
+
 </Project>
