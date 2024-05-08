@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Radzen;
 using Radzen.Blazor;
+using SchoolFinder.Common.Abstraction;
 using SchoolFinder.Common.Abstraction.Pagination;
 using SchoolFinder.Common.Identity.Authentication.Registration;
 using SchoolFinder.Common.Identity.User;
@@ -19,10 +20,7 @@ namespace SchoolFinder.Web.App.Pages.Requests.Users
         public RadzenDataList<RegistrationForm> DataList { get; set; } = new RadzenDataList<RegistrationForm>();
 
         public List<RegistrationForm> RegistrationForms { get; set; } = new List<RegistrationForm>();
-        public RegistrationFormFilter Filter { get; set; } = new RegistrationFormFilter()
-        {
-            PageSize = 2
-        };
+        public RegistrationFormFilter Filter { get; set; } = new RegistrationFormFilter();
         public bool IsLoading { get; set; } = false;
 
         public int TotalCount { get; set; }
@@ -92,6 +90,12 @@ namespace SchoolFinder.Web.App.Pages.Requests.Users
             RegistrationForms = forms.Values.ToList();
         }
 
+        public async Task OnOrderByChange()
+        {
+            await SetToPageOne();
+            await ReadForms();
+        }
+
         public async Task OnRead(LoadDataArgs args)
         {
             IsLoading = true;
@@ -104,6 +108,12 @@ namespace SchoolFinder.Web.App.Pages.Requests.Users
         public async Task OnSearchBoxChange(string newValue)
         {
             Filter.SearchText = newValue;
+            await SetToPageOne();
+            await ReadForms();
+        }
+
+        public async Task OnSortByChange()
+        {
             await SetToPageOne();
             await ReadForms();
         }

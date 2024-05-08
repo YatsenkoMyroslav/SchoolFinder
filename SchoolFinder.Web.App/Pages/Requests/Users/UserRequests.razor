@@ -11,8 +11,10 @@
             <div class="col-3">
                 <RadzenTextBox Change=@(args => OnSearchBoxChange(args)) class="w-100" Placeholder="Search" />
             </div>
-            <div class="col-3">
-                <RadzenDropDown @bind-Value=@Filter.SortBy Data=@(Enum.GetValues(typeof(RegistrationFormFieldIdentifier)).Cast<RegistrationFormFieldIdentifier>()) class="w-100">
+            <div class="col-2">
+                <RadzenDropDown @bind-Value=@Filter.SortBy class="w-100"
+                                Data=@(Enum.GetValues(typeof(RegistrationFormFieldIdentifier)).Cast<RegistrationFormFieldIdentifier>())
+                                Change=@OnSortByChange>
                     <Template>
                         @(((RegistrationFormFieldIdentifier)context).GetEnumDescription())
                     </Template>
@@ -21,18 +23,20 @@
                     </ValueTemplate>
                 </RadzenDropDown>
             </div>
-            <div class="col-3">
-                <RadzenDropDown @bind-Value=@Filter.OrderBy Data=@(Enum.GetValues(typeof(SortOrder)).Cast<SortOrder>()) class="w-100">
+            <div class="col-2">
+                <RadzenDropDown @bind-Value=@Filter.OrderBy class="w-100"
+                                Data=@(Enum.GetValues(typeof(SchoolFinder.Common.Abstraction.SortOrder)).Cast<SchoolFinder.Common.Abstraction.SortOrder>())
+                                Change=@OnOrderByChange>
                     <Template>
-                        @(((SortOrder)context).GetEnumDescription())
+                        @(((SchoolFinder.Common.Abstraction.SortOrder)context).GetEnumDescription())
                     </Template>
                     <ValueTemplate>
-                        @(((SortOrder)context).GetEnumDescription())
+                        @(((SchoolFinder.Common.Abstraction.SortOrder)context).GetEnumDescription())
                     </ValueTemplate>
                 </RadzenDropDown>
             </div>
         </div>
-        <RadzenDataList @ref=@DataList AllowPaging=true Data=@RegistrationForms Count=@TotalCount PageSize="2"
+        <RadzenDataList @ref=@DataList AllowPaging=true Data=@RegistrationForms Count=@TotalCount PageSize=@Filter.PageSize
                         LoadData=@OnRead IsLoading=@IsLoading PagerHorizontalAlign="HorizontalAlign.Left"  ShowPagingSummary="true">
             <Template Context="request">
 
