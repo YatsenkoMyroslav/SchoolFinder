@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolFinder.DAL.Db;
 
@@ -11,9 +12,10 @@ using SchoolFinder.DAL.Db;
 namespace SchoolFinder.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240508112415_SchoolAdded")]
+    partial class SchoolAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -189,9 +191,6 @@ namespace SchoolFinder.Core.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("SchoolCreationRequestId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("SchoolId")
                         .HasColumnType("uniqueidentifier");
 
@@ -200,8 +199,6 @@ namespace SchoolFinder.Core.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SchoolCreationRequestId");
 
                     b.HasIndex("SchoolId");
 
@@ -433,50 +430,6 @@ namespace SchoolFinder.Core.Migrations
                     b.ToTable("Schools");
                 });
 
-            modelBuilder.Entity("SchoolFinder.Common.School.Request.SchoolCreationRequest", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("LocationId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("LongDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OwnerId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("SchoolPhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SchoolWebsiteUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShortDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LocationId");
-
-                    b.HasIndex("OwnerId");
-
-                    b.ToTable("SchoolCreationRequests");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -530,10 +483,6 @@ namespace SchoolFinder.Core.Migrations
 
             modelBuilder.Entity("SchoolFinder.Common.FileBytes", b =>
                 {
-                    b.HasOne("SchoolFinder.Common.School.Request.SchoolCreationRequest", null)
-                        .WithMany("Photos")
-                        .HasForeignKey("SchoolCreationRequestId");
-
                     b.HasOne("SchoolFinder.Common.School.Model.School", null)
                         .WithMany("Photos")
                         .HasForeignKey("SchoolId");
@@ -591,23 +540,6 @@ namespace SchoolFinder.Core.Migrations
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("SchoolFinder.Common.School.Request.SchoolCreationRequest", b =>
-                {
-                    b.HasOne("SchoolFinder.Common.Abstraction.Geo", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SchoolFinder.Common.Identity.User.User", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId");
-
-                    b.Navigation("Location");
-
-                    b.Navigation("Owner");
-                });
-
             modelBuilder.Entity("SchoolFinder.Common.School.Model.Feedback.Comment", b =>
                 {
                     b.Navigation("Ratings");
@@ -617,11 +549,6 @@ namespace SchoolFinder.Core.Migrations
                 {
                     b.Navigation("Comments");
 
-                    b.Navigation("Photos");
-                });
-
-            modelBuilder.Entity("SchoolFinder.Common.School.Request.SchoolCreationRequest", b =>
-                {
                     b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618
