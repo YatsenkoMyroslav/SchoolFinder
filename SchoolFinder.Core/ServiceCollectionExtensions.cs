@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Elasticsearch.Net;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Nest;
 using SchoolFinder.Common.Identity.User;
 using SchoolFinder.Core.Services;
 using SchoolFinder.DAL.Db;
@@ -18,6 +20,7 @@ namespace SchoolFinder.Core
             services.AddDb(options.ConnectionString);
             services.AddIdentity();
             services.AddAuthorization();
+            services.AddElasticSearch();
 
             return services;
         }
@@ -39,6 +42,17 @@ namespace SchoolFinder.Core
             return services;
         }
 
+        public static IServiceCollection AddElasticSearch(this IServiceCollection services)
+        {
+            var pool = new SingleNodeConnectionPool(new Uri("http://localhost:9200"));
+            var settings = new ConnectionSettings(pool)
+                .DefaultIndex("school");
+            var client = new ElasticClient(settings);
+            services.AddSingleton(client);
+
+            return services;
+        }
+
         public static IServiceCollection AddIdentity(this IServiceCollection services)
         {
             services.AddIdentity<User, IdentityRole>(setupAction =>
@@ -53,6 +67,16 @@ namespace SchoolFinder.Core
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            return services;
+        }
+
+        public static IServiceCollection AddSchool(this IServiceCollection services)
+        {
+            services.AddScoped<SchoolRegistrationStore>();
+            services.AddScoped<SchoolRegistrationService>();
+            services.AddScoped<SchoolStore>();
+            services.AddScoped<SchoolService>();
 
             return services;
         }

@@ -1,4 +1,6 @@
-﻿namespace SchoolFinder.Common.Identity.Authentication.Registration
+﻿using SchoolFinder.Common.Abstraction;
+
+namespace SchoolFinder.Common.Identity.Authentication.Registration
 {
     public class RegistrationForm
     {
@@ -11,7 +13,7 @@
         public string SchoolName { get; set; } = string.Empty;
         public string PositionInSchool { get; set; } = string.Empty;
         public FileBytes DocumentApprove { get; set; } = new FileBytes();
-        public RegistrationFormState State { get; set; } = RegistrationFormState.None;
+        public RequestState State { get; set; } = RequestState.None;
 
         public RegistrationForm(RegistrationFormType type)
         {
