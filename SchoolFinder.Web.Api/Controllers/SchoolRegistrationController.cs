@@ -20,7 +20,7 @@ namespace SchoolFinder.Web.Api.Controllers
 
         [HttpPost]
         [Route("create")]
-        public async Task<IActionResult> Create([FromBody] SchoolCreationRequest request)
+        public async Task<IActionResult> Create([FromBody] SchoolCreationRequestDto request)
         {
             await _schoolRegistrationService.Create(request);
             return Ok(true);
@@ -30,13 +30,13 @@ namespace SchoolFinder.Web.Api.Controllers
         [Route("find")]
         public async Task<IActionResult> Find([FromBody] SchoolCreationRequestFilter filter)
         {
-            PagedList<SchoolCreationRequest> schools = await _schoolRegistrationService.Find(filter);
+            PagedList<SchoolCreationRequestDto> schools = await _schoolRegistrationService.Find(filter);
             return Ok(schools);
         }
 
         [HttpPut]
         [Route("update")]
-        public async Task<IActionResult> Update([FromBody] SchoolCreationRequest request)
+        public async Task<IActionResult> Update([FromBody] SchoolCreationRequestDto request)
         {
             await _schoolRegistrationService.Update(request);
             return Ok(true);

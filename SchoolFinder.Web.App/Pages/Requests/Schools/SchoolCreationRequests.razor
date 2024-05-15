@@ -1,0 +1,89 @@
+﻿@page "/schools/requests"
+@layout MainLayout
+@inherits FinderComponent
+
+<PageTitle>Запити шкіл</PageTitle>
+
+<AuthenticatedInRole AllowedRoles=@(new string[] { UserRoles.Admin })>
+    <AllowedView>
+        <PageHeader Title="Запити на додавання шкіл" Subtitle="Переглядайти запити, додавайте, відхиляйте тут" />
+        <div class="row justify-content-end">
+            <div class="col-3">
+                <RadzenTextBox Change=@(args => OnSearchBoxChange(args)) class="w-100" Placeholder="Search" />
+            </div>
+            <div class="col-2">
+                <RadzenDropDown @bind-Value=@Filter.SortBy class="w-100"
+                                Data=@(Enum.GetValues(typeof(RegistrationFormFieldIdentifier)).Cast<RegistrationFormFieldIdentifier>())
+                                Change=@OnSortByChange>
+                    <Template>
+                        @(((RegistrationFormFieldIdentifier)context).GetEnumDescription())
+                    </Template>
+                    <ValueTemplate>
+                        @(((RegistrationFormFieldIdentifier)context).GetEnumDescription())
+                    </ValueTemplate>
+                </RadzenDropDown>
+            </div>
+            <div class="col-2">
+                <RadzenDropDown @bind-Value=@Filter.OrderBy class="w-100"
+                                Data=@(Enum.GetValues(typeof(SchoolFinder.Common.Abstraction.SortOrder)).Cast<SchoolFinder.Common.Abstraction.SortOrder>())
+                                Change=@OnOrderByChange>
+                    <Template>
+                        @(((SchoolFinder.Common.Abstraction.SortOrder)context).GetEnumDescription())
+                    </Template>
+                    <ValueTemplate>
+                        @(((SchoolFinder.Common.Abstraction.SortOrder)context).GetEnumDescription())
+                    </ValueTemplate>
+                </RadzenDropDown>
+            </div>
+        </div>
+        @if (Requests.Any())
+        {
+            <RadzenDataList @ref=@DataList AllowPaging=true Data=@Requests Count=@TotalCount PageSize=@Filter.PageSize
+                            LoadData=@OnRead IsLoading=@IsLoading PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true">
+                <Template Context="request">
+
+                    <div class="row">
+                        <div class="col-4">
+                            <ImagesCarousel Photos=@request.Photos />
+                        </div>
+                        <div class="col-8">
+                            <h4>@request.Name</h4>
+                            <div class="mt-4">
+                                Власник: @request.Owner.FirstName @request.Owner.LastName
+                            </div>
+                            <div class="mt-4">
+                                @request.ShortDescription
+                            </div>
+                            <div class="mt-4">
+                                Телефон: @request.SchoolPhoneNumber
+                            </div>
+                            <div class="mt-4">
+                                Сайт: @request.SchoolWebsiteUrl
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (request.State == RequestState.None)
+                    {
+                        <hr />
+                        <div class="row justify-content-end">
+                            <div class="col-2">
+                                <RadzenButton Click=@(args => DeclineRequest(request)) ButtonStyle="ButtonStyle.Light" Shade="Shade.Lighter" class="w-100">Відхилити</RadzenButton>
+                            </div>
+                            <div class="col-2">
+                                <RadzenButton Click=@(args => ApproveRequest(request)) class="px-3 w-100">Прийняти</RadzenButton>
+                            </div>
+                        </div>
+                    }
+                </Template>
+            </RadzenDataList>
+        }
+        else
+        {
+            <DefaultNoContentView />
+        }
+    </AllowedView>
+    <NotAllowedView>
+        <DefaultNotAllowedView />
+    </NotAllowedView>
+</AuthenticatedInRole>

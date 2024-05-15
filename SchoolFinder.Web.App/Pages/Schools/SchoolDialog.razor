@@ -1,0 +1,113 @@
+﻿@inherits FinderComponent
+
+@if (School != null)
+{
+    <div class="h-100" style="position: relative;">
+        <div style="height: 90%; width: auto; overflow-y: auto; overflow-x: hidden;">
+            <div class="row">
+                <div class="col-6">
+                    @if (IsNew)
+                    {
+                        <div>
+                            <RadzenText class="ms-2">Додайте фото школи</RadzenText>
+                            <RadzenUpload @ref=@Upload ChooseText="Перетягніть файл або оберіть натиснувши" Multiple
+                                           Change=@OnFileChange Accept="image/*" class="w-100 fileUpload" />
+                         </div>
+                    }
+                    else
+                    {
+                        <ImagesCarousel Photos=@School!.Photos />
+                    }
+                </div>
+                <div class="col-6">
+                    <FormTextInput @bind-Value=@(School!.Name) FieldDescription="Школа" ReadOnly=@(!IsFormEditable) Width="100%" />
+                    @if (IsFormEditable)
+                    {
+                        <RadzenText class="ms-2">Короткий опис</RadzenText>
+                        <RadzenTextArea class="w-100" @bind-Value=@School.ShortDescription MaxLength=@(int.MaxValue) />
+
+                        <RadzenText class="ms-2">Довгий опис</RadzenText>
+                        <RadzenTextArea class="w-100" @bind-Value=@School.LongDescription MaxLength=@(int.MaxValue) />
+                    }
+                    else
+                    {
+                        <RadzenText>@School.LongDescription</RadzenText>
+                    }
+                        
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    @if (IsNew && State.IsAdmin())
+                    {
+                        <RadzenText class="ms-2">Оберіть власника</RadzenText>
+                        <RadzenDropDown class="w-100" AllowFiltering TextProperty="LastName" Data=@Users @bind-Value=@School.Owner TValue="UserDto">
+                            <Template Context="user">
+                                @{
+                                    UserDto entity = (UserDto)user;
+                                }
+                                @entity.FirstName @entity.LastName
+                            </Template>
+                        </RadzenDropDown>
+                    }
+                    <FormTextInput @bind-Value=@(School!.SchoolPhoneNumber) FieldDescription="Телефон" ReadOnly=@(!IsFormEditable) Width="100%" />
+                    @if (IsFormEditable)
+                    {
+                        <FormTextInput @bind-Value=@(School!.SchoolWebsiteUrl) FieldDescription="Сайт" Width="100%" />
+                    }
+                    else
+                    {
+                        <RadzenText class="ms-2">Сайт</RadzenText>
+                        <RadzenLink class="ms-2" Path=@School.SchoolWebsiteUrl target="_blank" Text=@School.SchoolWebsiteUrl />
+                    }
+                </div>
+                <div class="col-6">
+                    <div>
+                        <RadzenText class="ms-2">@(IsFormEditable ? "Для встановлення нової локації натисніть на потрібе місце" : "Локація")</RadzenText>
+                            <RadzenGoogleMap style="height: 400px" ApiKey="AIzaSyCAo3Pzpe2M_hsZh0PgwiFVvCIJC5ziGFk" Options=@(new Dictionary<string, object> { { "disableDoubleClickZoom", true } })
+                                             MapClick=@OnMapClick
+                                             Center=@((School.Location.Latitude != 0 && School.Location.Latitude != 0) 
+                                             ? new GoogleMapPosition() { Lat = School.Location.Latitude, Lng = School.Location.Longitude } 
+                                             : new GoogleMapPosition() { Lat = 50.4412254, Lng = 30.5330812 })
+                                             Zoom=@((School.Location.Latitude != 0 && School.Location.Latitude != 0) ? 12 : 8)>
+                                <Markers>
+                                    @if (School.Location.Latitude != 0 && School.Location.Latitude != 0)
+                                {
+                                    <RadzenGoogleMapMarker Position=@(new GoogleMapPosition() { Lat = School.Location.Latitude, Lng = School.Location.Longitude }) />
+                                }
+                            </Markers>
+                        </RadzenGoogleMap>
+                    </div>
+                </div>
+            </div>
+
+            @if (!IsNew)
+            {
+                <SchoolRatingsSection SchoolId=@School.Id />
+                <SchoolCommentsSection SchoolId=@School.Id />
+            }
+        </div>
+        <div style="height: 10%">
+            <div class="w-100">
+                <hr />
+                <div class="row justify-content-end">
+                    <div class="col-2">
+                        <RadzenButton class="w-100" Click=@CloseDialog ButtonStyle="ButtonStyle.Light" Shade="Shade.Lighter">Закрити</RadzenButton>
+                    </div>
+                    @if (IsFormEditable && !IsNew)
+                    {
+                        <div class="col-2">
+                            <RadzenButton class="w-100" Click=@Delete ButtonStyle="ButtonStyle.Danger" Shade="Shade.Lighter">Видалити</RadzenButton>
+                        </div>
+                    }
+                    @if (IsFormEditable)
+                    {
+                        <div class="col-2">
+                            <RadzenButton class="w-100" Click=@Save>Зберегти</RadzenButton>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}

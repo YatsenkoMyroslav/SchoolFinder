@@ -28,6 +28,8 @@ namespace SchoolFinder.DAL.Stores
                 .FilterBy(filter)
                 .SortBy(filter)
                 .TakePage(filter)
+                .Include(r => r.Owner)
+                .Include(r => r.Photos)
                 .ToListAsync();
         }
 

@@ -34,7 +34,7 @@ namespace SchoolFinder.Web.App.Pages.Requests.Users
 
         public async Task ApproveForm(RegistrationForm form)
         {
-            form.State = RegistrationFormState.Approved;
+            form.State = RequestState.Approved;
             bool result = await RegistrationService.UpdateRequest(form);
             if(result) {
                 RegistrationModel model = new RegistrationModel()
@@ -55,7 +55,7 @@ namespace SchoolFinder.Web.App.Pages.Requests.Users
 
         public async Task DeclineForm(RegistrationForm form)
         {
-            form.State = RegistrationFormState.Declined;
+            form.State = RequestState.Declined;
             bool result = await RegistrationService.UpdateRequest(form);
             StateHasChanged();
             ProvideNotification(result);

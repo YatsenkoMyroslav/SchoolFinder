@@ -2,7 +2,7 @@
 
 namespace SchoolFinder.Common.School.Model.Feedback
 {
-    public class Comment
+    public class Comment : ICloneable
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public string Text { get; set; } = string.Empty;
@@ -13,5 +13,19 @@ namespace SchoolFinder.Common.School.Model.Feedback
         public bool Deleted { get; set; }
         public DateTime DeletedOn { get; set; }
 
+        public object Clone()
+        {
+            return new Comment
+            {
+                Id = this.Id,
+                Text = this.Text,
+                School = this.School,
+                CreatedBy = this.CreatedBy,
+                Ratings = this.Ratings,
+                CreatedOn = this.CreatedOn,
+                Deleted = this.Deleted,
+                DeletedOn = this.DeletedOn
+            };
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Elasticsearch.Net;
+﻿using Azure.Storage.Blobs;
+using Elasticsearch.Net;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,10 +18,12 @@ namespace SchoolFinder.Core
             ServiceCollectionOptions options = new ServiceCollectionOptions();
             optionsBuilder(options);
 
-            services.AddDb(options.ConnectionString);
+            services.AddDb(options.DbConnectionString);
+            services.AddBlob(options.BlobStorageConnectionString);
             services.AddIdentity();
             services.AddAuthorization();
             services.AddElasticSearch();
+            services.AddSchool();
 
             return services;
         }
@@ -31,6 +34,15 @@ namespace SchoolFinder.Core
             services.AddScoped<RegistrationFormService>();
             services.AddScoped<RegistrationService>();
             services.AddScoped<AuthService>();
+            services.AddScoped<UserService>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddBlob(this IServiceCollection services, string blobConnectionString)
+        {
+            services.AddSingleton(x => new BlobServiceClient(blobConnectionString));
+            services.AddScoped<BlobStorageService>();
 
             return services;
         }
@@ -77,6 +89,11 @@ namespace SchoolFinder.Core
             services.AddScoped<SchoolRegistrationService>();
             services.AddScoped<SchoolStore>();
             services.AddScoped<SchoolService>();
+
+            services.AddScoped<CommentStore>();
+            services.AddScoped<CommentService>();
+            services.AddScoped<RatingStore>();
+            services.AddScoped<RatingService>();
 
             return services;
         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using SchoolFinder.Common.Abstraction.Extensions;
 using SchoolFinder.Common.Identity.Authentication.Registration;
 using SchoolFinder.Common.School.Model;
@@ -28,7 +29,14 @@ namespace SchoolFinder.DAL.Stores
                 .FilterBy(filter)
                 .SortBy(filter)
                 .TakePage(filter)
+                .Include(s => s.Photos)
+                .Include(s => s.Location)
                 .ToListAsync();
+        }
+
+        public Task<School?> Get(Guid id)
+        {
+            return _context.Schools.FirstOrDefaultAsync(s => s.Id == id);
         }
 
         public Task<int> GetTotalCount(SchoolFilter filter)

@@ -1,0 +1,42 @@
+﻿@page "/users"
+@inherits FinderComponent
+@layout MainLayout
+
+<PageTitle>Користувачі</PageTitle>
+
+<PageHeader Title="Користувачі" Subtitle="Тут ви можете керувати ролями користувачів" />
+
+<div class="row justify-content-end">
+    <div class="col-3">
+        <RadzenTextBox Change=@(args => OnSearchBoxChange(args)) class="w-100" Placeholder="Пошук" />
+    </div>
+</div>
+
+@if (DataUsers.Any())
+{
+    <RadzenDataList @ref=@DataList AllowPaging=true Data=@DataUsers Count=@TotalCount LoadData=@OnRead TItem="UserDto" IsLoading=@IsLoading
+                    PageSize=@Filter.PageSize PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true">
+        <Template Context="user">
+            <div class="row">
+                <div class="col-8">
+                    @user.FirstName @user.LastName
+                </div>
+                <div class="col-4">
+                    <RadzenDropDown Data=@Roles.Keys.ToList() Value=@Roles.FirstOrDefault(p => p.Value == user.Roles?.FirstOrDefault()).Key TValue="string" class="w-100" Change=@(args => OnRoleChanged((string)args, user))>
+                        <Template>
+                            @(context)
+                        </Template>
+                        <ValueTemplate>
+                            @(context)
+                        </ValueTemplate>
+                    </RadzenDropDown>
+                </div>
+            </div>
+        </Template>
+    </RadzenDataList>
+}
+else
+{
+    <DefaultNoContentView />
+}
+

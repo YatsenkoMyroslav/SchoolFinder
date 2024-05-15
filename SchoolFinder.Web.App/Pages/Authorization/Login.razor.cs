@@ -34,11 +34,7 @@ namespace SchoolFinder.Web.App.Pages.Authorization
 
             if (!response.IsEmpty)
             {
-                State = new AppState(response.Token, new UserDto()
-                {
-                     Id = response.UserId,
-                     Roles = response.UserRoles
-                });
+                State = new AppState(response.Token, response.User);
                 await SessionStorage.Set("AppState", State);
                 NavigationManager.NavigateTo("");
             }

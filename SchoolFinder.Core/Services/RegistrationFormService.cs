@@ -6,15 +6,18 @@ namespace SchoolFinder.Core.Services
 {
     public class RegistrationFormService
     {
+        private BlobStorageService _blobStorageService { get; set; }
         private RegistrationFormStore _store { get; set; } 
 
-        public RegistrationFormService(RegistrationFormStore store) {
+        public RegistrationFormService(BlobStorageService blobStorageService, RegistrationFormStore store) {
+            _blobStorageService = blobStorageService;
             _store = store;
         }
 
-        public Task<int> Create(RegistrationForm form)
+        public async Task<int> Create(RegistrationForm form)
         {
-            return _store.Create(form);
+            form.DocumentApprove = await _blobStorageService.Upload(form.DocumentApprove);
+            return await _store.Create(form);
         }
 
         public async Task<PagedList<RegistrationForm>> Find(RegistrationFormFilter filter)

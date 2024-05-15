@@ -1,0 +1,19 @@
+﻿@inherits FinderComponent
+
+<div class="row">
+    <div class="col-4">
+        <ImagesCarousel Photos=@School.Photos />
+    </div>
+    <div class="col-8" style="cursor:pointer" onclick=@(async () => await CardClicked())>
+        <h4>@School.Name</h4>
+        <div class="mt-2">
+            @School.ShortDescription
+        </div>
+        @if (Uri.IsWellFormedUriString(School.SchoolWebsiteUrl, UriKind.Absolute))
+        {
+            <div class="mt-2">
+                <RadzenLink Path=@School.SchoolWebsiteUrl Text="Сайт" />
+            </div>
+        }
+    </div>
+</div>

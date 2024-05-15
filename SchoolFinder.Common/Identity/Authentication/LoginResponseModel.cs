@@ -1,14 +1,15 @@
-﻿namespace SchoolFinder.Common.Identity.Authentication
+﻿using SchoolFinder.Common.Identity.User;
+
+namespace SchoolFinder.Common.Identity.Authentication
 {
     public class LoginResponseModel
     {
         public string Token { get; set; } = string.Empty;
         public DateTime ExpireOn { get; set; }
-        public List<string>? UserRoles { get; set; } = new List<string>();
-        public string UserId { get; set; } = string.Empty;
+        public UserDto User { get; set; } = new UserDto();
 
-        public bool IsEmpty => string.IsNullOrEmpty(UserId) 
+        public bool IsEmpty => string.IsNullOrEmpty(User.Id) 
             || string.IsNullOrEmpty(Token)
-            || UserRoles == null;
+            || User.Roles == null;
     }
 }

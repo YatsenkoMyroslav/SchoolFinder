@@ -1,9 +1,8 @@
-﻿using SchoolFinder.Core.Configurations;
-
-namespace SchoolFinder.Core
+﻿namespace SchoolFinder.Core
 {
     public class ServiceCollectionOptions
     {
-        public string ConnectionString { get; set; } = string.Empty;
+        public string DbConnectionString { get; set; } = string.Empty;
+        public string BlobStorageConnectionString { get; set; } = string.Empty;
     }
 }

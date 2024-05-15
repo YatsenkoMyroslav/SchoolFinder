@@ -15,5 +15,6 @@ namespace SchoolFinder.Common.School.Request
         public Geo Location { get; set; } = new Geo();
         public List<FileBytes>? Photos { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
+        public RequestState State { get; set; } = RequestState.None;
     }
 }

@@ -1,0 +1,7 @@
+﻿@page "/schools/owned/{OwnerId:guid}"
+@layout MainLayout
+@inherits FinderComponent
+
+<PageTitle>Ваші школи</PageTitle>
+
+<SchoolList OwnerId=@OwnerId Title="Ваші школи" SubTitle="Редагуйте, переглядайте ваші заклади" />

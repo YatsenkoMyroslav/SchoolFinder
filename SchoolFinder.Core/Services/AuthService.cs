@@ -45,8 +45,7 @@ namespace SchoolFinder.Core.Services
                 return new LoginResponseModel(){
                     Token = new JwtSecurityTokenHandler().WriteToken(token),
                     ExpireOn = token.ValidTo,
-                    UserId = user.Id,
-                    UserRoles = userRoles.ToList()
+                    User = user.ToDto(userRoles.ToList())
                 };
             }
             return new LoginResponseModel();

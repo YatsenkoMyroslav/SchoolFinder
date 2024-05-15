@@ -370,7 +370,7 @@ namespace SchoolFinder.Core.Migrations
                     b.Property<int>("Category")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("CommentId")
+                    b.Property<Guid>("CommentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Value")
@@ -467,6 +467,9 @@ namespace SchoolFinder.Core.Migrations
                     b.Property<string>("ShortDescription")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("State")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -569,9 +572,13 @@ namespace SchoolFinder.Core.Migrations
 
             modelBuilder.Entity("SchoolFinder.Common.School.Model.Feedback.Rating", b =>
                 {
-                    b.HasOne("SchoolFinder.Common.School.Model.Feedback.Comment", null)
+                    b.HasOne("SchoolFinder.Common.School.Model.Feedback.Comment", "Comment")
                         .WithMany("Ratings")
-                        .HasForeignKey("CommentId");
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Comment");
                 });
 
             modelBuilder.Entity("SchoolFinder.Common.School.Model.School", b =>

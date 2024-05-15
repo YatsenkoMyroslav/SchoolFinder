@@ -10,10 +10,18 @@ namespace SchoolFinder.Web.App.Services
             services.AddBlazoredSessionStorage();
             services.AddScoped<FinderNavigationManager>();
             services.AddScoped<SessionStorage>();
+
+            services.AddScoped<ContextMenuService>();
+            services.AddScoped<DialogService>();
             services.AddScoped<NotificationService>();
 
             services.AddHttpClient<AuthService>(client => client.BaseAddress = new Uri($"{apiUrl}/api/Auth/"));
             services.AddHttpClient<RegistrationService>(client => client.BaseAddress = new Uri($"{apiUrl}/api/Registration/"));
+            services.AddHttpClient<SchoolCommentService>(client => client.BaseAddress = new Uri($"{apiUrl}/api/Comment/"));
+            services.AddHttpClient<SchoolCreationRequestService>(client => client.BaseAddress = new Uri($"{apiUrl}/api/SchoolRegistration/"));
+            services.AddHttpClient<SchoolRatingService>(client => client.BaseAddress = new Uri($"{apiUrl}/api/Rating/"));
+            services.AddHttpClient<SchoolService>(client => client.BaseAddress = new Uri($"{apiUrl}/api/School/"));
+            services.AddHttpClient<UserService>(client => client.BaseAddress = new Uri($"{apiUrl}/api/User/"));
 
             return services;
         }

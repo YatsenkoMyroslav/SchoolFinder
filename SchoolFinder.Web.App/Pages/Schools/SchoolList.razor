@@ -1,0 +1,22 @@
+﻿@page "/schools"
+@inherits FinderComponent
+@layout MainLayout
+
+@if(OwnerId is null)
+{
+    <PageTitle>Школи</PageTitle>
+}
+
+<AuthenticatedComponent>
+    <Authenticated>
+        <PageHeader @ref=@PageHeader Title=@Title Subtitle=@SubTitle OnButtonClick=@((State.User?.Roles?.Contains(UserRoles.SchoolAdmin) ?? false) || (State.User?.Roles?.Contains(UserRoles.Admin) ?? false) ? new EventCallbackFactory().Create(this, OnAddClick) : new EventCallback(null, null))>
+            <Button>
+                <span><span class="oi oi-plus"/> Додати школу</span>
+            </Button>
+        </PageHeader>
+        <SchoolDataList OnSchoolClick=@OnSchoolClick OwnerId=@OwnerId />
+    </Authenticated>
+    <NotAuthenticated>
+        <DefaultNotAllowedView />
+    </NotAuthenticated>
+</AuthenticatedComponent>

@@ -23,7 +23,7 @@ namespace SchoolFinder.Web.Api.Controllers
 
         [HttpPost]
         [Route("create")]
-        public async Task<IActionResult> Register([FromBody] RegistrationForm registrationForm)
+        public async Task<IActionResult> CreateRequest([FromBody] RegistrationForm registrationForm)
         {
             int result = await _registrationFormService.Create(registrationForm);
 

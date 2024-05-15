@@ -36,57 +36,52 @@
                 </RadzenDropDown>
             </div>
         </div>
-        <RadzenDataList @ref=@DataList AllowPaging=true Data=@RegistrationForms Count=@TotalCount PageSize=@Filter.PageSize
-                        LoadData=@OnRead IsLoading=@IsLoading PagerHorizontalAlign="HorizontalAlign.Left"  ShowPagingSummary="true">
-            <Template Context="request">
-
-                <div class="row">
-                    <div class="col-6">
-                        <RadzenImage Path=@request.DocumentApprove.Url Style="width: 100%;" AlternateText="Фото документа" />
-                    </div>
-                    <div class="col-6">
-                        <h4>@request.UserFirstName @request.UserLastName</h4>
-                        <div>
-                            @switch (request.Type)
-                            {
-                                case RegistrationFormType.Student:
-                                    <span>Учень школи: @request.SchoolName</span>
-                                    break;
-                                case RegistrationFormType.SchoolAdministration:
-                                    <span>@request.PositionInSchool у школі: @request.SchoolName</span>
-                                    break;
-                            }
-                        </div>
-                        <div class="mt-2">
-                            @switch (request.State)
-                            {
-                                case RegistrationFormState.None:
-                                    <h5>Очікує підтвердження</h5>
-                                    break;
-                                case RegistrationFormState.Approved:
-                                    <h5>Реєстрація підтверджена</h5>
-                                    break;
-                                case RegistrationFormState.Declined:
-                                    <h5>Реєстрація відхилена</h5>
-                                    break;
-                            }
-                        </div>
-                    </div>
-                </div>
-                @if (request.State == RegistrationFormState.None)
-                {
-                    <hr />
+        @if (RegistrationForms.Any())
+        {
+            <RadzenDataList @ref=@DataList AllowPaging=true Data=@RegistrationForms Count=@TotalCount PageSize=@Filter.PageSize
+            LoadData=@OnRead IsLoading=@IsLoading PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true">
+                <Template Context="request">
                     <div class="row">
                         <div class="col-6">
-                            <RadzenButton Click=@(args => DeclineForm(request)) class="bg-danger px-3 w-100">Відхилити</RadzenButton>
+                            <ImagesCarousel Photos=@(new List<Common.FileBytes>(){request.DocumentApprove}) />
                         </div>
                         <div class="col-6">
-                            <RadzenButton Click=@(args => ApproveForm(request)) class="px-3 w-100">Прийняти</RadzenButton>
+                            <h4>@request.UserFirstName @request.UserLastName</h4>
+                            <div>
+                                @switch (request.Type)
+                                {
+                                    case RegistrationFormType.Student:
+                                        <span>Учень школи: @request.SchoolName</span>
+                                        break;
+                                    case RegistrationFormType.SchoolAdministration:
+                                        <span>@request.PositionInSchool у школі: @request.SchoolName</span>
+                                        break;
+                                }
+                            </div>
+                            <div class="mt-2">
+                                @request.State.GetEnumDescription()
+                            </div>
                         </div>
                     </div>
-                }
-            </Template>
-        </RadzenDataList>
+                    @if (request.State == RequestState.None)
+                    {
+                        <hr />
+                        <div class="row justify-content-end">
+                            <div class="col-2">
+                                <RadzenButton Click=@(args => DeclineForm(request)) ButtonStyle="ButtonStyle.Light" Shade="Shade.Lighter" class="w-100">Відхилити</RadzenButton>
+                            </div>
+                            <div class="col-2">
+                                <RadzenButton Click=@(args => ApproveForm(request)) class="px-3 w-100">Прийняти</RadzenButton>
+                            </div>
+                        </div>
+                    }
+                </Template>
+            </RadzenDataList>
+        }
+        else
+        {
+            <DefaultNoContentView />
+        }
     </AllowedView>
     <NotAllowedView>
         <DefaultNotAllowedView />

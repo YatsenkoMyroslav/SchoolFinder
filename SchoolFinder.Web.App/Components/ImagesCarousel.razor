@@ -1,0 +1,15 @@
+﻿@inherits FinderComponent
+<div class="w-100">
+    @if (Photos.Any())
+    {
+        <RadzenDataList class="w-100"  PageSize="1" WrapItems="false" AllowPaging="true" Data=@Photos>
+            <Template Context="photo">
+                <img src=@(!string.IsNullOrWhiteSpace(photo.Url) ? photo.Url : _noContentImagePath) class="mw-100" />
+            </Template>
+        </RadzenDataList>
+    }
+    else
+    {
+        <RadzenImage Path=@_noContentImagePath class="mw-100" />
+    }
+</div>

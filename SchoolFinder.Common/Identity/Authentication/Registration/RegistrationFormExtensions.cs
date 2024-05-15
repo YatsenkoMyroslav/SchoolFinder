@@ -1,4 +1,5 @@
-﻿using SchoolFinder.Common.Abstraction.Extensions;
+﻿using SchoolFinder.Common.Abstraction;
+using SchoolFinder.Common.Abstraction.Extensions;
 
 namespace SchoolFinder.Common.Identity.Authentication.Registration
 {
@@ -7,7 +8,7 @@ namespace SchoolFinder.Common.Identity.Authentication.Registration
         public static IQueryable<RegistrationForm> FilterBy(this IQueryable<RegistrationForm> registrationForms, RegistrationFormFilter filter)
         {
             return registrationForms
-                .Where(f => (f.State == filter.State || filter.State == RegistrationFormState.None)
+                .Where(f => (f.State == filter.State || filter.State == RequestState.None)
                     && (filter.SearchText == null 
                         || f.UserFirstName.Contains(filter.SearchText) 
                         || f.UserLastName.Contains(filter.SearchText) 

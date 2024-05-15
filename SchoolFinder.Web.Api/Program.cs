@@ -11,7 +11,8 @@ ConfigurationManager configuration = builder.Configuration;
 
 builder.Services.AddCore(options => 
 {
-    options.ConnectionString = configuration.GetConnectionString("mainDb");
+    options.DbConnectionString = configuration.GetConnectionString("mainDb");
+    options.BlobStorageConnectionString = configuration.GetConnectionString("blobStorage");
 });
 
 JwtConfiguration jwtConfiguration = configuration.GetSection("JWT").Get<JwtConfiguration>();

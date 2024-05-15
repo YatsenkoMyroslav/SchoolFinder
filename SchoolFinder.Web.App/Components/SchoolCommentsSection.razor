@@ -1,0 +1,54 @@
+﻿@inherits FinderComponent
+
+<PageHeader Title="Коментарі" OnButtonClick=@ShowAddCommentSection>
+    <Button>
+        <span class="oi oi-plus" /> Додати коментар
+    </Button>
+</PageHeader>
+
+@if (AddCommentSectionVisible)
+{
+    <div class="row">
+        @{
+            List<RatingCategory> ratingCategories = new List<RatingCategory>((RatingCategory[])Enum.GetValues(typeof(RatingCategory)));
+            int numberOfColumns = 3;
+            int numberOfEntitiesInColumn = (int)Math.Ceiling((double)ratingCategories.Count / (double)numberOfColumns);
+        }
+        @for (int column = 0; column < numberOfColumns; column++)
+        {
+            <div class="col-4">
+                @foreach (RatingCategory category in ratingCategories.Skip(column * numberOfEntitiesInColumn).Take(numberOfEntitiesInColumn))
+                {
+                    <RadzenText class="mt-4">@(category.GetEnumDescription())</RadzenText>
+                    <RadzenRating @bind-Value=@(Comment.Ratings!.First(r => r.Category == category).Value) />
+                }
+            </div>
+        }
+    </div>
+    <RadzenText>Залиште тут свій відгук</RadzenText>
+    <RadzenTextArea @bind-Value=@(Comment.Text) class="w-100" />
+
+    <div class="row justify-content-end">
+        <div class="col-2">
+            <RadzenButton class="w-100" Click=@CloseAddCommentSection ButtonStyle="ButtonStyle.Light" Shade="Shade.Lighter">Відмінити</RadzenButton>
+        </div>
+        <div class="col-2">
+            <RadzenButton class="w-100" Click=@AddComment>Додати</RadzenButton>
+        </div>
+    </div>
+    <hr/>
+}
+
+@if (Comments.Values.Any())
+{
+    foreach(CommentDto comment in Comments.Values)
+    {
+        <div class="mt-2">
+            <CommentCard Comment=@comment OnChange=@ReadComments />
+        </div>
+    }
+}
+else
+{
+    <DefaultNoContentView />
+}

@@ -13,8 +13,8 @@
             <FormPasswordInput @bind-Value=@RegistrationForm.UserPassWord FieldDescription="Пароль" Width="80%" />
             <FormPasswordInput @bind-Value=@ApprovedPassword FieldDescription="Повторіть пароль" Width="80%" />
             <RadzenText class="mt-2 ms-2">Додайте фото довідки з відділу кадрів про займану посаду</RadzenText>
-            <RadzenFileInput @bind-Value=@(RegistrationForm.DocumentApprove.Data) @bind-FileName=@(RegistrationForm.DocumentApprove.Name)
-                             ChooseText="Обрати фото" class="fileUpload w-100" TValue="byte[]" />
+            <RadzenUpload @ref=@Upload ChooseText="Перетягніть файл або оберіть натиснувши" Multiple=false
+                          Change=@OnFileChange Accept="image/*" class="w-100 fileUpload" />
         </div>
         <div class="mt-3 row justify-content-around">
             <RadzenButton class="col-5 bg-danger" Click=@ClearForm>Очистити форму</RadzenButton>

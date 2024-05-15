@@ -2,5 +2,6 @@
 
 <div class="mt-2">
     <RadzenText class="ms-2">@FieldDescription</RadzenText>
-    <RadzenTextBox @bind-Value=@Value Change=@(async (args) => await OnChange(args)) ReadOnly=@ReadOnly Placeholder=@Placeholder Style=@(new string($"width: {Width};")) />
+    <RadzenTextBox class="@(ReadOnly ? "no-border" : "")" @bind-Value=@Value Change=@(async (args) => await OnChange(args)) 
+        ReadOnly=@ReadOnly Placeholder=@Placeholder Style=@(new string($"width: {Width};")) />
 </div>

@@ -1,0 +1,114 @@
+﻿@inherits FinderComponent
+
+<div class="row justify-content-end">
+    <div class="col-3">
+        <RadzenTextBox @bind-Value=@Filter.SearchText Change=@OnFilterChange class="w-100" Placeholder="Search" />
+    </div>
+    @if (OwnerId is null)
+    {
+        <div class="col-2">
+            <RadzenDropDown @bind-Value=@Filter.SortBy class="w-100"
+                            Data=@(Enum.GetValues(typeof(SchoolFieldIdentifier)).Cast<SchoolFieldIdentifier>())
+                            Change=@OnFilterChange>
+                <Template>
+                    @(((SchoolFieldIdentifier)context).GetEnumDescription())
+                </Template>
+                <ValueTemplate>
+                    @(((SchoolFieldIdentifier)context).GetEnumDescription())
+                </ValueTemplate>
+            </RadzenDropDown>
+        </div>
+        <div class="col-2">
+            <RadzenDropDown @bind-Value=@Filter.OrderBy class="w-100"
+                            Data=@(Enum.GetValues(typeof(SchoolFinder.Common.Abstraction.SortOrder)).Cast<SchoolFinder.Common.Abstraction.SortOrder>())
+                            Change=@OnFilterChange>
+                <Template>
+                    @(((SchoolFinder.Common.Abstraction.SortOrder)context).GetEnumDescription())
+                </Template>
+                <ValueTemplate>
+                    @(((SchoolFinder.Common.Abstraction.SortOrder)context).GetEnumDescription())
+                </ValueTemplate>
+            </RadzenDropDown>
+        </div>
+        <div class="col-auto">
+            <RadzenButton Click=@OpenFilterPopup>
+                <span class="oi oi-spreadsheet" />
+            </RadzenButton>
+        </div>
+    }
+    <div class="mt-2">
+        @if (Schools.Any())
+        {
+            <RadzenDataList @ref=@DataList WrapItems=false AllowPaging=true IsLoading=@IsLoading LoadData=@OnRead
+                            Data=@Schools Count=@TotalCount PageSize=@Filter.PageSize PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true">
+                <Template Context="school">
+                    <SchoolCard School=@school OnClick=@OnItemClick />
+                </Template>
+            </RadzenDataList>
+        }
+        else
+        {
+            <DefaultNoContentView />
+        }
+    </div>
+</div>
+
+@code {
+    public void OpenFilterPopup(MouseEventArgs args)
+    {
+        args.ClientX = args.ClientX - 450;
+        ContextMenuService.Open(args, ds =>
+    @<RadzenMenu style="width: 450px; max-height: 700px; overflow-y: auto; overflow-x: hidden;">
+        <div class="m-2">
+            <h6 class="ms-2">Віддаленість (у км.)</h6>
+            <div class="row justify-content-around mb-2">
+                <div class="col-6 px-2">
+                    <RadzenNumeric @bind-Value=Filter.MinRange Min="0" TextAlign="TextAlign.Right" />
+                </div>
+                <div class="col-6 px-2">
+                    <RadzenNumeric @bind-Value=Filter.MaxRange Min="0" TextAlign="TextAlign.Right" />
+                </div>
+            </div>
+            <h6 class="ms-2">Загальний рейтинг</h6>
+            <div class="row justify-content-around mb-2">
+                <div class="col-6 px-2">
+                    <RadzenNumeric @bind-Value=Filter.MinTotalRating Min="0" Max="5" Step="0.1" TextAlign="TextAlign.Right" />
+                </div>
+                <div class="col-6 px-2">
+                    <RadzenNumeric @bind-Value=Filter.MaxTotalRating Min="0" Max="5" Step="0.1" TextAlign="TextAlign.Right" />
+                </div>
+            </div>
+            <h6 class="ms-2">Оберіть категорії для фільтрування</h6>
+            <div class="row justify-content-around px-2 mb-2">
+                <RadzenDropDown AllowClear class="w-100" @bind-Value=@FilterSelectedCategories Data=@(Enum.GetValues(typeof(RatingCategory)).Cast<RatingCategory>())
+                                 Change=@(args => SelectedCategoriesChanged()) Chips Multiple SelectAllText="Обрати усі">
+                     <Template>
+                         @(((RatingCategory)context).GetEnumDescription())
+                    </Template>
+                </RadzenDropDown>
+            </div>
+            @foreach (var category in Filter.RatingCategoryFilters)
+            {
+                <h6 class="ms-2">@category.Category.GetEnumDescription()</h6>
+                <div class="mb-2 row">
+                    <div class="col-6 px-2">
+                        <RadzenNumeric @bind-Value=category.MinValue Min="0" Max="5" Step="0.1" TextAlign="TextAlign.Right" />
+                    </div>
+                    <div class="col-6 px-2">
+                        <RadzenNumeric @bind-Value=category.MaxValue Min="0" Max="5" Step="0.1" TextAlign="TextAlign.Right" />
+                    </div>
+                </div>
+            }
+            <hr />
+            <div class="row justify-content-end">
+                <div class="col-auto">
+                    <RadzenButton ButtonStyle=@ButtonStyle.Light Click=@ClearFilter>Очистити</RadzenButton>
+                </div>
+                <div class="col-auto">
+                    <RadzenButton Click=@OnFilterChange>Пошук</RadzenButton>
+                </div>
+            </div>
+        </div>
+    </RadzenMenu>);
+    }
+}

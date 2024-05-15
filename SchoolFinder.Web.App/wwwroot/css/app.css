@@ -63,10 +63,27 @@ a, .btn-link {
         content: "An error has occurred."
     }
 
+input.no-border{
+    border: none;
+}
+    input.no-border:hover {
+        border: none !important;
+    }
+
+    input.no-border:focus {
+        outline: none !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
 .fileUpload .rz-fileupload-buttonbar .rz-fileupload-choose {
     width: 100%;
     text-align: center;
     font-size: 16px;
     padding: 100px 0;
     border-radius: 0;
+}
+
+.rz-dialog-content {
+    height: 100% !important;
 }

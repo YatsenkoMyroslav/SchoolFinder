@@ -26,6 +26,7 @@ namespace SchoolFinder.DAL.Stores
                 .FilterBy(filter)
                 .SortBy(filter)
                 .TakePage(filter)
+                .Include(f => f.DocumentApprove)
                 .ToListAsync();
         }
 

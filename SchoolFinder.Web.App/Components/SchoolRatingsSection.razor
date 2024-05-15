@@ -1,0 +1,39 @@
+﻿<div class="row">
+    <div class="col-3">
+        <RadzenText class="mx-auto">Загальна оцінка</RadzenText>
+        <RadzenArcGauge class="w-100 py-3 px-0">
+            <RadzenArcGaugeScale Step="1" Margin="0" Min="0" Max="5" TickPosition=@GaugeTickPosition.Inside>
+                <RadzenArcGaugeScaleValue Value=@(Ratings.Values.Any() ? Ratings.Values.Average(r => r.Value) : 0)>
+                    <Template Context="pointer">
+                        <h4>
+                            @String.Format("{0:0.00}", pointer.Value) <span class="oi oi-star" />
+                        </h4>
+                    </Template>
+                </RadzenArcGaugeScaleValue>
+            </RadzenArcGaugeScale>
+        </RadzenArcGauge>
+    </div>
+
+    @{
+        List<RatingCategory> ratingCategories = new List<RatingCategory>((RatingCategory[])Enum.GetValues(typeof(RatingCategory)));
+        int numberOfColumns = 3;
+        int numberOfEntitiesInColumn = (int)Math.Ceiling((double)ratingCategories.Count / (double)numberOfColumns);
+    }
+    @for (int column = 0; column < numberOfColumns; column++)
+    {
+        <div class="col-3">
+            @foreach (RatingCategory category in ratingCategories.Skip(column * numberOfEntitiesInColumn).Take(numberOfEntitiesInColumn))
+            {
+                IEnumerable<RatingDto> ratingsForCategory = Ratings.Values.Where(r => r.Category == category);
+                double valueForCategory = ratingsForCategory.Any() ? ratingsForCategory.Average(r => r.Value) : 0;
+                <RadzenText class="mt-4">@(category.GetEnumDescription())</RadzenText>
+                <div class="row">
+                    <RadzenRating class="col-8" Value=@((int)valueForCategory) ReadOnly=true />
+                    <div class="col-4">
+                        @String.Format("{0:0.0}", valueForCategory) <span class="oi oi-star" />
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

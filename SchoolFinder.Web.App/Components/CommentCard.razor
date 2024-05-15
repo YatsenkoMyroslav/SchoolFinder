@@ -1,0 +1,67 @@
+﻿@inherits FinderComponent
+
+<RadzenCard Variant=@Variant.Filled>
+    <div class="row justify-content-between">
+        <div class="col-auto">@Comment.CreatedBy.FirstName @Comment.CreatedBy.LastName</div>
+        <div class="col-auto">
+            <RadzenButton Variant="Variant.Text" ButtonStyle="ButtonStyle.Dark" Click=@OnContextMenuButtonClick Visible=@IsUserCanEdit>
+                <span class="oi oi-ellipses" />
+            </RadzenButton>
+        </div>
+    </div>
+
+    @{
+        List<RatingCategory> ratingCategories = new List<RatingCategory>((RatingCategory[])Enum.GetValues(typeof(RatingCategory)));
+        int numberOfColumns = 3;
+        int numberOfEntitiesInColumn = (int)Math.Ceiling((double)ratingCategories.Count / (double)numberOfColumns);
+    }
+    <div class="row">
+        @if (IsCommentInEditMode)
+        {
+            for (int column = 0; column < numberOfColumns; column++)
+            {
+                <div class="col-4">
+                    @foreach (RatingCategory category in ratingCategories.Skip(column * numberOfEntitiesInColumn).Take(numberOfEntitiesInColumn))
+                    {
+                        <RadzenText class="mt-4">@(category.GetEnumDescription())</RadzenText>
+                        <RadzenRating @bind-Value=@(Comment.Ratings!.First(r => r.Category == category).Value) />
+                    }
+                </div>
+            }
+        }
+        else
+        {
+            for (int column = 0; column < numberOfColumns; column++)
+            {
+                <div class="col-4">
+                    @foreach (RatingDto rating in Comment.Ratings?.Skip(column * numberOfEntitiesInColumn).Take(numberOfEntitiesInColumn) ?? new List<RatingDto>())
+                    {
+                        <RadzenText class="mt-4">@(rating.Category.GetEnumDescription())</RadzenText>
+                        <RadzenRating @bind-Value=@(rating.Value) ReadOnly />
+                    }
+                </div>
+            }
+        }
+    </div>
+
+    @if (IsCommentInEditMode)
+    {
+        <RadzenTextArea @bind-Value=@Comment.Text class="w-100" />
+    }
+    else
+    {
+        <RadzenText>@Comment.Text</RadzenText>
+    }
+
+    @if (IsCommentInEditMode)
+    {
+        <div class="row justify-content-end">
+            <div class="col-2">
+                <RadzenButton class="w-100" Click=@CancelEdit ButtonStyle="ButtonStyle.Light" Shade="Shade.Lighter">Відмінити</RadzenButton>
+            </div>
+            <div class="col-2">
+                <RadzenButton class="w-100" Click=@Save>Зберегти</RadzenButton>
+            </div>
+        </div>
+    }
+</RadzenCard>
