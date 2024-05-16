@@ -4,6 +4,7 @@ using SchoolFinder.Common.Abstraction.Extensions;
 using SchoolFinder.Common.Identity.Authentication.Registration;
 using SchoolFinder.Common.School.Model;
 using SchoolFinder.DAL.Db;
+using SchoolFinder.DAL.QueryBuilders;
 
 namespace SchoolFinder.DAL.Stores
 {
@@ -25,7 +26,9 @@ namespace SchoolFinder.DAL.Stores
 
         public Task<List<School>> Find(SchoolFilter filter)
         {
+            string query = SchoolQueryBuilder.Build(filter);
             return _context.Schools
+                .FromSqlRaw(query)
                 .FilterBy(filter)
                 .SortBy(filter)
                 .TakePage(filter)

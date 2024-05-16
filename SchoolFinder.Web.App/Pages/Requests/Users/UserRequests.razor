@@ -41,8 +41,8 @@
             <RadzenDataList @ref=@DataList AllowPaging=true Data=@RegistrationForms Count=@TotalCount PageSize=@Filter.PageSize
             LoadData=@OnRead IsLoading=@IsLoading PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true">
                 <Template Context="request">
-                    <div class="row">
-                        <div class="col-6">
+                    <div class="row justify-content-between">
+                        <div class="col-4">
                             <ImagesCarousel Photos=@(new List<Common.FileBytes>(){request.DocumentApprove}) />
                         </div>
                         <div class="col-6">

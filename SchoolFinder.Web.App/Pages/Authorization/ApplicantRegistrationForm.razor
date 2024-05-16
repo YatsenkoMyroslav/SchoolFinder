@@ -1,0 +1,13 @@
+﻿@inherits FinderComponent
+<div class="w-50">
+    <FormTextInput @bind-Value=@RegistrationModel.Email FieldDescription="Електронна пошта" Width="100%" />
+    <FormTextInput @bind-Value=@RegistrationModel.LastName FieldDescription="Прізвище" Width="100%" />
+    <FormTextInput @bind-Value=@RegistrationModel.FirstName FieldDescription="Ім'я" Width="100%" />
+    <FormTextInput @bind-Value=@RegistrationModel.Password FieldDescription="Пароль" Width="100%" />
+    <FormTextInput @bind-Value=@ApprovedPassword FieldDescription="Повторіть пароль" Width="100%" />
+    <hr/>
+    <div class="mt-3 row justify-content-around">
+        <RadzenButton class="col-5 bg-danger" Click=@ClearForm>Очистити форму</RadzenButton>
+        <RadzenButton class="col-5 bg-primary" Click=@Register>Зареєструватися</RadzenButton>
+    </div>
+</div>
