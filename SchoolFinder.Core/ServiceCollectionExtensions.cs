@@ -92,8 +92,12 @@ namespace SchoolFinder.Core
 
             services.AddScoped<CommentStore>();
             services.AddScoped<CommentService>();
+            services.AddScoped<CommentCreationStore>();
+            services.AddScoped<CommentCreationService>();
             services.AddScoped<RatingStore>();
             services.AddScoped<RatingService>();
+            services.AddScoped<ReplyStore>();
+            services.AddScoped<ReplyService>();
 
             return services;
         }

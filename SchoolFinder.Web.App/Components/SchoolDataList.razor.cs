@@ -56,7 +56,6 @@ namespace SchoolFinder.Web.App.Components
         [JSInvokable]
         public void ReceiveCoordinates(double latitude, double longitude)
         {
-            Console.WriteLine($"Latitude: {latitude}, Longitude: {longitude}");
             Filter.UserLocation = new Geo()
             {
                 Latitude = latitude,
@@ -74,6 +73,7 @@ namespace SchoolFinder.Web.App.Components
         public async Task OnFilterChange()
         {
             await SetToPageOne();
+            Filter.RatingCategoryFilters = Filter.RatingCategoryFilters.Where(f => f.MaxValue != null || f.MinValue != null).ToList();
             await ReadSchools();
         }
 

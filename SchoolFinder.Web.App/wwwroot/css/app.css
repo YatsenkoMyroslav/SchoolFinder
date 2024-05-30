@@ -87,3 +87,11 @@ input.no-border{
 .rz-dialog-content {
     height: 100% !important;
 }
+
+.rz-paginator-first {
+    display: none !important;
+}
+
+.rz-paginator-last{
+    display: none !important;
+}

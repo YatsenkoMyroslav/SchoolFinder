@@ -41,6 +41,14 @@
                         </NavLink>
                     </div>
                 }
+                @if (State.User?.Roles?.Contains(UserRoles.Moderator) ?? false)
+                {
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="comments" Match="NavLinkMatch.All">
+                            <span class="oi oi-comment-square" aria-hidden="true"></span> Додавання коментарів
+                        </NavLink>
+                    </div>
+                }
                 @if (State.User?.Roles?.Contains(UserRoles.SuperAdmin) ?? false)
                 {
                     <div class="nav-item px-3">

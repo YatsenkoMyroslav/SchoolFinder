@@ -5,6 +5,7 @@ using SchoolFinder.Common.Identity.User;
 using SchoolFinder.Common.School.Model;
 using SchoolFinder.Common.School.Model.Feedback;
 using SchoolFinder.Common.School.Request;
+using SchoolFinder.Common.School.Request.Feedback;
 
 namespace SchoolFinder.DAL.Db
 {
@@ -14,6 +15,9 @@ namespace SchoolFinder.DAL.Db
         public DbSet<School> Schools { get; set; } = null!;
         public DbSet<Comment> Comments { get; set; } = null!;
         public DbSet<Rating> Ratings { get; set; } = null!;
+        public DbSet<Reply> Replies { get; set; } = null!;
+        public DbSet<CommentCreationRequest> CommentCreationRequests { get; set; } = null!;
+        public DbSet<RatingCreationRequest> RatingCreationRequests { get; set; } = null!;
         public DbSet<SchoolCreationRequest> SchoolCreationRequests { get; set; } = null!;
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {

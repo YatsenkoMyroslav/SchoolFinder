@@ -1,0 +1,59 @@
+﻿@page "/comments"
+@layout MainLayout
+@inherits FinderComponent
+
+<PageTitle>Додавання коментарів</PageTitle>
+
+<AuthenticatedInRole AllowedRoles=@(new string[] { UserRoles.Moderator })>
+    <AllowedView>
+        <PageHeader Title="Запити на додавання відгків" Subtitle="Переглядайти запити, додавайте, відхиляйте тут" />
+        @if (Requests.Any())
+        {
+            <RadzenDataList @ref=@DataList AllowPaging=true Data=@Requests Count=@TotalCount PageSize=@Filter.PageSize
+                            LoadData=@OnRead IsLoading=@IsLoading PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true">
+                <Template Context="request">
+                    <div class="col-auto">@request.CreatedBy.FirstName @request.CreatedBy.LastName</div>
+
+                    @{
+                        List<RatingCategory> ratingCategories = new List<RatingCategory>((RatingCategory[])Enum.GetValues(typeof(RatingCategory)));
+                        int numberOfColumns = 3;
+                        int numberOfEntitiesInColumn = (int)Math.Ceiling((double)ratingCategories.Count / (double)numberOfColumns);
+                    }
+
+                    @for (int column = 0; column < numberOfColumns; column++)
+                    {
+                        <div class="col-4">
+                            @foreach (RatingCreationRequestDto rating in request.Ratings?.Skip(column * numberOfEntitiesInColumn).Take(numberOfEntitiesInColumn) ?? new List<RatingCreationRequestDto>())
+                            {
+                                <RadzenText class="mt-4">@(rating.Category.GetEnumDescription())</RadzenText>
+                                <RadzenRating @bind-Value=@(rating.Value) ReadOnly />
+                            }
+                        </div>
+                    }
+
+                    <RadzenText>@request.Text</RadzenText>
+
+                    @if (request.RequestState == RequestState.None)
+                    {
+                        <hr />
+                        <div class="row justify-content-end">
+                            <div class="col-2">
+                                <RadzenButton Click=@(args => DeclineRequest(request)) ButtonStyle="ButtonStyle.Light" Shade="Shade.Lighter" class="w-100">Відхилити</RadzenButton>
+                            </div>
+                            <div class="col-2">
+                                <RadzenButton Click=@(args => ApproveRequest(request)) class="px-3 w-100">Прийняти</RadzenButton>
+                            </div>
+                        </div>
+                    }
+                </Template>
+            </RadzenDataList>
+        }
+        else
+        {
+            <DefaultNoContentView />
+        }
+    </AllowedView>
+    <NotAllowedView>
+        <DefaultNotAllowedView />
+    </NotAllowedView>
+</AuthenticatedInRole>

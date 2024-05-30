@@ -32,6 +32,7 @@ namespace SchoolFinder.DAL.Stores
                 .FilterBy(filter)
                 .SortBy(filter)
                 .TakePage(filter)
+                .Include(s => s.Owner)
                 .Include(s => s.Photos)
                 .Include(s => s.Location)
                 .ToListAsync();

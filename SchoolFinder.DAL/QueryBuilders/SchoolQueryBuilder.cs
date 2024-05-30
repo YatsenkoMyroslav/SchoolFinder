@@ -35,7 +35,7 @@ namespace SchoolFinder.DAL.QueryBuilders
                     }
                     else
                     {
-                        previousIdentifier = $"[sch{i}]";
+                        previousIdentifier = $"[sch]";
                         query += GetRatingFilteringComponent(previousIdentifier, filter.RatingCategoryFilters.ElementAt(i).MinValue, filter.RatingCategoryFilters.ElementAt(i).MaxValue, (int)filter.RatingCategoryFilters.ElementAt(i).Category);
                     }
                 }

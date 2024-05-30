@@ -44,7 +44,7 @@
     foreach(CommentDto comment in Comments.Values)
     {
         <div class="mt-2">
-            <CommentCard Comment=@comment OnChange=@ReadComments />
+            <CommentCard Comment=@comment School=@School OnChange=@ReadComments  />
         </div>
     }
 }

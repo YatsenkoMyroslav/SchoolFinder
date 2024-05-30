@@ -4,7 +4,9 @@
     {
         <RadzenDataList class="w-100"  PageSize="1" WrapItems="false" AllowPaging="true" Data=@Photos>
             <Template Context="photo">
-                <img src=@(!string.IsNullOrWhiteSpace(photo.Url) ? photo.Url : _noContentImagePath) class="mw-100" />
+                <div class="mx-auto">
+                    <img src=@(!string.IsNullOrWhiteSpace(photo.Url) ? photo.Url : _noContentImagePath) class="mw-100" />
+                </div>
             </Template>
         </RadzenDataList>
     }

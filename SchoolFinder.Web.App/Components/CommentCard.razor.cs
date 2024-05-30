@@ -4,6 +4,7 @@ using SchoolFinder.Common.Identity.User;
 using SchoolFinder.Common.School.Model.Feedback;
 using SchoolFinder.Web.App.Services;
 using Microsoft.AspNetCore.Components.Web;
+using SchoolFinder.Common.School.Model;
 
 namespace SchoolFinder.Web.App.Components
 {
@@ -13,6 +14,8 @@ namespace SchoolFinder.Web.App.Components
         public CommentDto Comment { get; set; } = new CommentDto();
         [Parameter]
         public EventCallback OnChange { get; set; } = EventCallback.Empty;
+        [Parameter]
+        public SchoolDto School { get; set; } = null!;
 
         [Inject]
         public ContextMenuService ContextMenuService { get; set; } = null!;
@@ -21,9 +24,10 @@ namespace SchoolFinder.Web.App.Components
 
         private CommentDto _commentCopy { get; set; } = new CommentDto();
         public bool IsCommentInEditMode { get; set; } = false;
-        private bool IsOwnerLoggedIn => Comment.CreatedBy.Id == State.User!.Id;
-        private bool IsUserCanEdit => (State.User?.Roles?.Contains(UserRoles.Moderator) ?? false) || State.User?.Id == Comment.CreatedBy.Id;
-        public bool IsShowContextMenuVisible => IsOwnerLoggedIn || IsUserCanEdit || true;
+        public bool IsOwnerLoggedIn => (Comment.CreatedBy?.Id ?? "") == (State.User?.Id ?? "" );
+        
+        public bool IsUserCanEdit => State.IsModerator() || IsOwnerLoggedIn;
+        public ReplyDto Reply { get; set; } = null!;
 
         public void CancelEdit()
         {

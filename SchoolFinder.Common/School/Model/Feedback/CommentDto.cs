@@ -9,6 +9,7 @@ namespace SchoolFinder.Common.School.Model.Feedback
         public SchoolDto School { get; set; } = new SchoolDto();
         public UserDto CreatedBy { get; set; } = new UserDto();
         public List<RatingDto>? Ratings { get; set; }
+        public List<ReplyDto>? Replies { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
         public bool Deleted { get; set; }
         public DateTime DeletedOn { get; set; }

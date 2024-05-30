@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components;
 using SchoolFinder.Common.Abstraction.Pagination;
+using SchoolFinder.Common.School.Model;
 using SchoolFinder.Common.School.Model.Feedback;
-using SchoolFinder.Common.School.Request;
+using SchoolFinder.Common.School.Request.Feedback;
 using SchoolFinder.Web.App.Services;
 
 namespace SchoolFinder.Web.App.Components
@@ -9,20 +10,23 @@ namespace SchoolFinder.Web.App.Components
     public partial class SchoolCommentsSection : FinderComponent
     {
         [Parameter]
-        public Guid SchoolId { get; set; } = Guid.Empty;
+        public SchoolDto School { get; set; } = null!;
 
         [Inject]
         public SchoolCommentService CommentService { get; set; } = null!;
+        [Inject]
+        public SchoolCommentCreationService CommentCreationService { get; set; } = null!;
 
         public bool AddCommentSectionVisible { get; set; }
-        public CommentDto Comment { get; set; } = new CommentDto();
+        public CommentCreationRequestDto Comment { get; set; } = new CommentCreationRequestDto();
+        public ReplyDto Reply { get; set; } = new ReplyDto();
         public PagedList<CommentDto> Comments { get; set; } = new PagedList<CommentDto>();
         public CommentFilter Filter { get; set; } = new CommentFilter();
 
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            Filter.SchoolId = SchoolId;
+            Filter.SchoolId = School.Id;
             Filter.PageSize = int.MaxValue;
             await ReadComments();
         }
@@ -34,7 +38,16 @@ namespace SchoolFinder.Web.App.Components
             {
                 Comment.Ratings = Comment.Ratings.Where(r => r.Value > 0 && r.Value < 6).ToList();
             }
-            bool result = await CommentService.Add(Comment);
+            bool result = false;
+            if (State.IsModerator())
+            {
+                result = await CommentService.Add(Comment.ToCommentDtoModel());
+            }
+            else
+            {
+                result = await CommentCreationService.Add(Comment);
+            }
+            
             await ReadComments();
             StateHasChanged();
         }
@@ -53,20 +66,20 @@ namespace SchoolFinder.Web.App.Components
 
         public void ShowAddCommentSection()
         {
-            Comment = new CommentDto();
-            Comment.School.Id = SchoolId;
-            Comment.CreatedBy.Id = State.User!.Id;
+            Comment = new CommentCreationRequestDto();
+            Comment.SchoolId = School.Id;
+            Comment.CreatedById = State.User!.Id;
             foreach (RatingCategory category in Enum.GetValues(typeof(RatingCategory)))
             {
                 if (Comment.Ratings != null)
                 {
-                    Comment.Ratings.Add(new RatingDto() { Category = category });
+                    Comment.Ratings.Add(new RatingCreationRequestDto() { Category = category });
                 }
                 else
                 {
-                    Comment.Ratings = new List<RatingDto>()
+                    Comment.Ratings = new List<RatingCreationRequestDto>()
                     {
-                        new RatingDto()
+                        new RatingCreationRequestDto()
                         {
                             Category = category
                         }

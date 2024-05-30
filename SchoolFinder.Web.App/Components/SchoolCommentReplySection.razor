@@ -1,0 +1,30 @@
+﻿@inherits FinderComponent
+
+@if (IsUserCanReply && !IsReplySectionVisible)
+{
+    <div class="mt-2 mb-2">
+        <RadzenButton Click=@EnableReply ButtonStyle="ButtonStyle.Light" Shade="Shade.Lighter">Відповісти</RadzenButton>
+    </div>
+}
+
+@if (IsReplySectionVisible)
+{
+    <div class="mt-2 mb-2">
+        <RadzenTextArea @bind-Value=@Reply.Message class="w-100" Placeholder="Ваша відповідь..." />
+        <div class="row justify-content-end">
+            <div class="col-2">
+                <RadzenButton class="w-100" Click=@CancelReply ButtonStyle="ButtonStyle.Light" Shade="Shade.Lighter">Відмінити</RadzenButton>
+            </div>
+            <div class="col-2">
+                <RadzenButton class="w-100" Click=@AddReply>Відповісти</RadzenButton>
+            </div>
+        </div>
+    </div>
+}
+
+@foreach (ReplyDto reply in Replies)
+{
+    <div class="mt-2 mb-2">
+        <ReplyCard Reply=@reply OnChange=@ReadReplies />
+    </div>
+}

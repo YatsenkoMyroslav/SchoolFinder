@@ -1,0 +1,28 @@
+﻿@inherits FinderComponent
+
+<RadzenCard Variant=@Variant.Filled>
+    <div class="row justify-content-between">
+        <div class="col-auto">@Reply.CreatedBy.FirstName @Reply.CreatedBy.LastName</div>
+        <div class="col-auto">
+            <RadzenButton Variant="Variant.Text" ButtonStyle="ButtonStyle.Dark" Click=@OnContextMenuButtonClick Visible=@IsUserCanEdit>
+                <span class="oi oi-ellipses" />
+            </RadzenButton>
+        </div>
+    </div>
+    @if (IsInEditMode)
+    {
+        <RadzenTextArea @bind-Value=@Reply.Message class="w-100" />
+        <div class="row justify-content-end">
+            <div class="col-2">
+                <RadzenButton class="w-100" Click=@CancelEdit ButtonStyle="ButtonStyle.Light" Shade="Shade.Lighter">Відмінити</RadzenButton>
+            </div>
+            <div class="col-2">
+                <RadzenButton class="w-100" Click=@Save>Зберегти</RadzenButton>
+            </div>
+        </div>
+    }
+    else
+    {
+        <RadzenText>@Reply.Message</RadzenText>
+    }
+</RadzenCard>

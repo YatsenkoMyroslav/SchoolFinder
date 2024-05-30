@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolFinder.DAL.Db;
 
@@ -11,9 +12,10 @@ using SchoolFinder.DAL.Db;
 namespace SchoolFinder.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240518221823_AddReply")]
+    partial class AddReply
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -461,60 +463,6 @@ namespace SchoolFinder.Core.Migrations
                     b.ToTable("Schools");
                 });
 
-            modelBuilder.Entity("SchoolFinder.Common.School.Request.Feedback.CommentCreationRequest", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("CreatedById")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("RequestState")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("SchoolId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("SchoolId");
-
-                    b.ToTable("CommentCreationRequests");
-                });
-
-            modelBuilder.Entity("SchoolFinder.Common.School.Request.Feedback.RatingCreationRequest", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Category")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("CommentRequestId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Value")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CommentRequestId");
-
-                    b.ToTable("RatingCreationRequests");
-                });
-
             modelBuilder.Entity("SchoolFinder.Common.School.Request.SchoolCreationRequest", b =>
                 {
                     b.Property<Guid>("Id")
@@ -697,36 +645,6 @@ namespace SchoolFinder.Core.Migrations
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("SchoolFinder.Common.School.Request.Feedback.CommentCreationRequest", b =>
-                {
-                    b.HasOne("SchoolFinder.Common.Identity.User.User", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SchoolFinder.Common.School.Model.School", "School")
-                        .WithMany()
-                        .HasForeignKey("SchoolId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CreatedBy");
-
-                    b.Navigation("School");
-                });
-
-            modelBuilder.Entity("SchoolFinder.Common.School.Request.Feedback.RatingCreationRequest", b =>
-                {
-                    b.HasOne("SchoolFinder.Common.School.Request.Feedback.CommentCreationRequest", "CommentRequest")
-                        .WithMany("Ratings")
-                        .HasForeignKey("CommentRequestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CommentRequest");
-                });
-
             modelBuilder.Entity("SchoolFinder.Common.School.Request.SchoolCreationRequest", b =>
                 {
                     b.HasOne("SchoolFinder.Common.Abstraction.Geo", "Location")
@@ -756,11 +674,6 @@ namespace SchoolFinder.Core.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Photos");
-                });
-
-            modelBuilder.Entity("SchoolFinder.Common.School.Request.Feedback.CommentCreationRequest", b =>
-                {
-                    b.Navigation("Ratings");
                 });
 
             modelBuilder.Entity("SchoolFinder.Common.School.Request.SchoolCreationRequest", b =>

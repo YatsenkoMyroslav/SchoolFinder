@@ -17,7 +17,9 @@ namespace SchoolFinder.Web.App.Services
 
             services.AddHttpClient<AuthService>(client => client.BaseAddress = new Uri($"{apiUrl}/api/Auth/"));
             services.AddHttpClient<RegistrationService>(client => client.BaseAddress = new Uri($"{apiUrl}/api/Registration/"));
+            services.AddHttpClient<SchoolCommentReplyService>(client => client.BaseAddress = new Uri($"{apiUrl}/api/Reply/"));
             services.AddHttpClient<SchoolCommentService>(client => client.BaseAddress = new Uri($"{apiUrl}/api/Comment/"));
+            services.AddHttpClient<SchoolCommentCreationService>(client => client.BaseAddress = new Uri($"{apiUrl}/api/CommentCreation/"));
             services.AddHttpClient<SchoolCreationRequestService>(client => client.BaseAddress = new Uri($"{apiUrl}/api/SchoolRegistration/"));
             services.AddHttpClient<SchoolRatingService>(client => client.BaseAddress = new Uri($"{apiUrl}/api/Rating/"));
             services.AddHttpClient<SchoolService>(client => client.BaseAddress = new Uri($"{apiUrl}/api/School/"));
